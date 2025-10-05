@@ -19,13 +19,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRecord getUser(BigInteger id) {
-        return userManager.findById(id).map(user -> new UserRecord(user.getId(), user.getEmail(), user.getFullName(),
-                user.getRole(), user.getPassword())).orElse(null);
+        return userManager.findById(id).map(UserRecord::from).orElse(null);
     }
 
     @Override
     public Optional<UserRecord> getUser(String email) {
-        return userManager.findByEmail(email).flatMap(user -> Optional.of(new UserRecord(user.getId(), user.getEmail(), user.getFullName(), user.getRole(), user.getPassword())));
+        return userManager.findByEmail(email).map(UserRecord::from);
     }
 
     @Override
@@ -35,16 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserRecord createUser(UserRecord user) {
-
-        var userModel = new User();
-        userModel.setEmail(user.email());
-        userModel.setPassword(DigestUtils.md5DigestAsHex(user.password().getBytes()));
-        userModel.setRole(user.role());
-        userModel.setFullName(user.fullName());
-
-        var data = userManager.save(userModel);
-        return new UserRecord(data.getId(), data.getEmail(), data.getFullName(),
-                data.getRole(), data.getPassword());
+        return UserRecord.from(userManager.save(user.to()));
     }
 
     @Override
