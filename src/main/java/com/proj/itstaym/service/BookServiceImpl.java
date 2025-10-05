@@ -1,6 +1,6 @@
 package com.proj.itstaym.service;
 
-import com.proj.itstaym.controller.api.records.BookRecord;
+import com.proj.itstaym.controller.records.BookRecord;
 import com.proj.itstaym.manager.api.BookManager;
 import com.proj.itstaym.model.Book;
 import com.proj.itstaym.service.api.BookService;

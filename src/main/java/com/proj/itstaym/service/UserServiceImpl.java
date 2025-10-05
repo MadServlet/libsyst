@@ -1,12 +1,10 @@
 package com.proj.itstaym.service;
 
-import com.proj.itstaym.controller.api.records.UserRecord;
+import com.proj.itstaym.controller.records.UserRecord;
 import com.proj.itstaym.manager.api.UserManager;
-import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import java.math.BigInteger;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package com.proj.itstaym.controller.api;
+package com.proj.itstaym.controller;
 
-import com.proj.itstaym.controller.api.records.UserRecord;
+import com.proj.itstaym.controller.records.UserRecord;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

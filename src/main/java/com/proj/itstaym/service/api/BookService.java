@@ -1,6 +1,6 @@
 package com.proj.itstaym.service.api;
 
-import com.proj.itstaym.controller.api.records.BookRecord;
+import com.proj.itstaym.controller.records.BookRecord;
 
 import java.math.BigInteger;
 import java.util.List;

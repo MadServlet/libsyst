@@ -1,4 +1,4 @@
-package com.proj.itstaym.controller.api.records;
+package com.proj.itstaym.controller.records;
 
 import com.proj.itstaym.enums.Role;
 import com.proj.itstaym.model.User;

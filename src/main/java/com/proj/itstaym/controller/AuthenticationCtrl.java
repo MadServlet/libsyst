@@ -1,6 +1,6 @@
-package com.proj.itstaym.controller.api;
+package com.proj.itstaym.controller;
 
-import com.proj.itstaym.controller.api.records.AuthRecord;
+import com.proj.itstaym.controller.records.AuthRecord;
 import com.proj.itstaym.security.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -60,14 +60,6 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth").permitAll()
-
-                        // TESTING ONLY
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/web/**").permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/img/**").permitAll()
-
                         .requestMatchers("/api/user","/api/books/**")
                         .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
                         .anyRequest().authenticated()
