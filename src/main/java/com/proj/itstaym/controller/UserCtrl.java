@@ -3,7 +3,9 @@ package com.proj.itstaym.controller;
 import com.proj.itstaym.controller.records.UserRecord;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -19,26 +21,60 @@ public class UserCtrl {
         this.userService = userService;
     }
 
-    @GetMapping(params = "id")
-    public UserRecord getUser(@RequestParam Integer id) {
-        return userService.getUser(new BigInteger(String.valueOf(id)));
-    }
-
-    @GetMapping(params = "email")
-    public UserRecord getUser(@RequestParam String email) {
-
-        return null;
-    }
-
-    @GetMapping(params = {"page", "count"})
-    public List<UserRecord> getUsers(@RequestParam Integer page, @RequestParam Integer count) {
-
-        return null;
-    }
-
-    @PostMapping
+    // Create
+    @PostMapping("/save")
     public UserRecord createUser(@RequestBody UserRecord user) {
         return userService.createUser(user);
+    }
+
+    @PostMapping("/save/bulk")
+    public List<UserRecord> createUser(@RequestBody List<UserRecord> users) {
+        return userService.createUsers(users);
+    }
+
+    // Read
+    @GetMapping(path = "/find", params = "id")
+    public UserRecord find(@RequestParam BigInteger id) {
+        return userService.find(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    @GetMapping(path = "/find", params = "email")
+    public UserRecord find(@RequestParam String email) {
+        return userService.find(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    @GetMapping(path = "/find/bulk", params = {"page", "size"})
+    public List<UserRecord> findAll(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return userService.findAll(page, size);
+    }
+
+    @PostMapping(path = "/find/bulk", params = {"page", "size"})
+    public List<UserRecord> findAll(@RequestBody UserRecord userRecord, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return userService.findByCriteria(userRecord, page, size);
+    }
+
+    // Update
+    @PatchMapping("/update")
+    public UserRecord updateUser(@RequestBody UserRecord userRecord) {
+        return userService.updateUser(userRecord);
+    }
+
+    @PatchMapping("/update/bulk")
+    public List<UserRecord> updateUsers(@RequestBody List<UserRecord> userRecords) {
+        return userService.updateUsers(userRecords);
+    }
+
+    // Delete
+    @DeleteMapping(path = "/delete", params = "id")
+    public void deleteUser(@RequestParam("id") BigInteger id) {
+        userService.deleteUser(id);
+    }
+
+    @DeleteMapping(path = "/delete", params = "email")
+    public void deleteUser(@RequestParam("email") String email) {
+        userService.deleteUser(email);
     }
 
 }

@@ -24,7 +24,7 @@ public record UserRecord(
         );
     }
 
-    public User to() {
+    public User toEntity() {
         var user = new User();
         user.setId(id);
         user.setEmail(email);

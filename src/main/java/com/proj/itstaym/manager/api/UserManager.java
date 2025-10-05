@@ -16,4 +16,7 @@ public interface UserManager extends JpaRepository<User, BigInteger> {
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<User> findByEmail(@Param("email") String email);
 
+    @Query("DELETE u FROM User u WHERE u.email = :email")
+    void deleteByEmail(@Param("email") String email);
+
 }

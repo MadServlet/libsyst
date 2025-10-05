@@ -18,10 +18,11 @@ public class UserAuthenticationService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public UserDetails loadUserByUsername(@NonNull  String email) throws UsernameNotFoundException {
 
-        var user = userService.getUser(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        var user = userService.find(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return new User(
                 user.email(),
