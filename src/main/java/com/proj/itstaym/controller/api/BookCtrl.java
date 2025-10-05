@@ -52,7 +52,7 @@ public class BookCtrl {
     }
 
     // Update
-    @PostMapping
+    @PatchMapping
     public BookRecord updateBook(@RequestBody BookRecord bookRecord) {
         return bookService.updateBook(bookRecord);
     }
