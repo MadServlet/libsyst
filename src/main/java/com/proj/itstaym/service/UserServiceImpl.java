@@ -1,6 +1,6 @@
 package com.proj.itstaym.service;
 
-import com.proj.itstaym.controller.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserRecord;
 import com.proj.itstaym.manager.api.UserManager;
 import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.math.BigInteger;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,8 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRecord getUser(String email) {
-        return null;
+    public Optional<UserRecord> getUser(String email) {
+        return userManager.findByEmail(email).flatMap(user -> Optional.of(new UserRecord(user.getId(), user.getEmail(), user.getFullName(), user.getRole(), user.getPassword())));
     }
 
     @Override

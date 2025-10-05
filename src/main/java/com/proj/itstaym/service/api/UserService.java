@@ -1,14 +1,15 @@
 package com.proj.itstaym.service.api;
 
-import com.proj.itstaym.controller.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserRecord;
 
 import java.math.BigInteger;
+import java.util.Optional;
 
 public interface UserService {
 
     UserRecord getUser(BigInteger id);
 
-    UserRecord getUser(String email);
+    Optional<UserRecord> getUser(String email);
 
     UserRecord getUsers(Integer page, Integer count);
 

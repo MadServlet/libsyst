@@ -1,6 +1,6 @@
-package com.proj.itstaym.controller;
+package com.proj.itstaym.controller.api;
 
-import com.proj.itstaym.controller.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserRecord;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserCtrl {
 
     private final UserService userService;

@@ -1,10 +1,18 @@
 package com.proj.itstaym.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.math.BigInteger;
 import java.time.Year;
 
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
     private String title;
     private String author;

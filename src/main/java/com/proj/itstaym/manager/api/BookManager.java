@@ -1,20 +1,13 @@
 package com.proj.itstaym.manager.api;
 
 import com.proj.itstaym.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public interface BookManager {
-
-    Book getBook(BigInteger id);
-
-    List<Book> findBook(Book book);
-
-    Book createBook(Book book);
-
-    Book updateBook(Book book);
-
-    void deleteBook(Integer id);
+@Repository
+public interface BookManager extends JpaRepository<Book, BigInteger> {
 
 }
