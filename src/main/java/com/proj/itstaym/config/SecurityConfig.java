@@ -68,7 +68,8 @@ public class SecurityConfig {
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/img/**").permitAll()
 
-                        .requestMatchers("/api/**").hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/user","/api/books")
+                        .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
                         .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
@@ -82,7 +83,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:8080"));
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
