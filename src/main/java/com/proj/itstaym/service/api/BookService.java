@@ -13,12 +13,14 @@ public interface BookService {
 
     List<BookRecord> findAll(Integer page, Integer size);
 
-    BookRecord findBook(BookRecord bookRecord);
+    List<BookRecord> findByCriteria(BookRecord bookRecord);
 
     BookRecord createBook(BookRecord bookRecord);
 
+    List<BookRecord> createBooks(List<BookRecord> bookRecords);
+
     BookRecord updateBook(BookRecord bookRecord);
 
-    void deleteBook(Integer id);
+    void deleteBook(BigInteger id);
 
 }
