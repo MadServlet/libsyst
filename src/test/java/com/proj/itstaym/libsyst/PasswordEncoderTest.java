@@ -7,7 +7,7 @@ public class PasswordEncoderTest {
 
     public static void main(String[] args) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String rawPassword = "1234";
+        String rawPassword = "pass";
         String encodedPassword = encoder.encode(rawPassword);
 
         System.out.println("Raw password: " + rawPassword);
