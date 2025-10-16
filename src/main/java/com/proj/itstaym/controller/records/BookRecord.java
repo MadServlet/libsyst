@@ -2,10 +2,9 @@ package com.proj.itstaym.controller.records;
 
 import com.proj.itstaym.model.Book;
 
-import java.math.BigInteger;
 import java.time.Year;
 
-public record BookRecord(BigInteger id, String title, String author,
+public record BookRecord(Long id, String title, String author,
                          String edition, String publisher, Year year,
                          String code, Integer copies) {
 

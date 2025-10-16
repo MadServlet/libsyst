@@ -3,11 +3,9 @@ package com.proj.itstaym.controller.records;
 import com.proj.itstaym.enums.Role;
 import com.proj.itstaym.model.User;
 
-import java.math.BigInteger;
-
 
 public record UserRecord(
-        BigInteger id,
+        Long id,
         String email,
         String fullName,
         Role role,
