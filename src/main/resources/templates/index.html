@@ -1,29 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Create User Account</title>
+    <title>Libsyst</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/css/all.min.css}">
 </head>
 <header>
+
     <div class="title-logo">
         <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
-        <h1>Admin</h1>
+        <h1 th:text="${#strings.capitalize(#strings.toLowerCase(user_role))}"></h1>
     </div>
-    <nav>
+
+    <!-- IF ROLE IS STUDENT-->
+    <nav sec:authorize="hasAuthority('STUDENT')">
+        <a href="user_main.html">Dashboard</a>
+        <a href="history.html">Borrow/Return History</a>
+    </nav>
+
+    <!-- IF ROLE IS ADMIN-->
+    <nav sec:authorize="hasAuthority('ADMIN')">
         <a href="admin main.html">Create User Account</a>
         <a href="user_management.html">Manage Users</a>
         <a href="borrow_return history.html">Borrow/Return History</a>
     </nav>
+
+    <!-- IF ROLE IS LIBRARIAN-->
+    <nav sec:authorize="hasAuthority('LIBRARIAN')">
+        <a href="main.html">Dashboard</a>
+        <a href="books.html">Books</a>
+        <a href="members.html">Users</a>
+        <a href="issue and return.html">Borrow and Returns</a>
+        <a href="borrow_return history.html">Borrow/Return History</a>
+    </nav>
+
     <div>
-        <button id="logoutBtn" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-        </button>
+        <form th:action="@{/web/logout}" method="post">
+            <button id="logoutBtn" type="submit">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
     </div>
 </header>
 
 <body>
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <div th:replace="~{fragments/dashboards/admin_dashboard :: dashboardContent}"></div>
+    </div>
+
+    <div sec:authorize="hasAuthority('STUDENT')">
+        <div th:replace="~{fragments/dashboards/student_dashboard :: dashboardContent}"></div>
+    </div>
+
+    <div sec:authorize="hasAuthority('LIBRARIAN')">
+        <div th:replace="~{fragments/dashboards/librarian_dashboard :: dashboardContent}"></div>
+    </div>
 
 </body>
 
@@ -32,11 +65,6 @@
 </footer>
 
 <script>
-
-    function logout() {
-        sessionStorage.removeItem('isLoggedIn');
-        window.location.href = '../../main_login/main_login.html';
-    }
 
     setInterval(() => {
         document.getElementById('currentTime').innerHTML = new Date().toLocaleString();
