@@ -60,7 +60,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth").permitAll()
-                        .requestMatchers("/api/user","/api/books/**")
+                        .requestMatchers("/api/user/**","/api/books/**")
                         .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
                         .anyRequest().authenticated()
                 )
