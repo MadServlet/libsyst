@@ -1,6 +1,6 @@
 package com.proj.itstaym.service;
 
-import com.proj.itstaym.controller.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserRecord;
 import com.proj.itstaym.manager.api.UserManager;
 import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;

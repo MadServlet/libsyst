@@ -58,11 +58,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth").permitAll()
-                        .requestMatchers("/api/user/**","/api/books/**")
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/api/auth").permitAll()
+
+                        // TESTING ONLY
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/web/**").permitAll()
+                        .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/img/**").permitAll()
+                        .requestMatchers("/webfonts/**").permitAll()
+
+                        .requestMatchers("/api/user/**", "/api/books/**")
                         .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // Everything else is authenticated
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

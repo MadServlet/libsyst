@@ -1,6 +1,6 @@
-package com.proj.itstaym.controller;
+package com.proj.itstaym.controller.api;
 
-import com.proj.itstaym.controller.records.BookRecord;
+import com.proj.itstaym.controller.api.records.BookRecord;
 import com.proj.itstaym.service.api.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

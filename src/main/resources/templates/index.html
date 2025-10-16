@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Create User Account</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/all.min.css}">
+</head>
+<header>
+    <div class="title-logo">
+        <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
+        <h1>Admin</h1>
+    </div>
+    <nav>
+        <a href="admin main.html">Create User Account</a>
+        <a href="user_management.html">Manage Users</a>
+        <a href="borrow_return history.html">Borrow/Return History</a>
+    </nav>
+    <div>
+        <button id="logoutBtn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+</header>
+
+<body>
+
+</body>
+
+<footer>
+    <p id="currentTime"></p>
+</footer>
+
+<script>
+
+    function logout() {
+        sessionStorage.removeItem('isLoggedIn');
+        window.location.href = '../../main_login/main_login.html';
+    }
+
+    setInterval(() => {
+        document.getElementById('currentTime').innerHTML = new Date().toLocaleString();
+    }, 1000);
+
+</script>
+
+</html>

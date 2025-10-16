@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Autowired
     public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -32,9 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String path = httpServletRequest.getServletPath();
+        System.out.println("I got triggered!");
 
-        if ("/api/auth".equals(path)) {
+        if (shouldNotFilter(httpServletRequest)) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
@@ -56,5 +58,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        // Define the paths that your filter should NOT process
+        return pathMatcher.match("/api/auth", request.getServletPath()) ||
+                pathMatcher.match("/", request.getServletPath()) ||
+                pathMatcher.match("/login", request.getServletPath()) ||
+                pathMatcher.match("/css/**", request.getServletPath()) ||
+                pathMatcher.match("/js/**", request.getServletPath()) ||
+                pathMatcher.match("/img/**", request.getServletPath()) ||
+                pathMatcher.match("/web/**", request.getServletPath());
     }
 }
