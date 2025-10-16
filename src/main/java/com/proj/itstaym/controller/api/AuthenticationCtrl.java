@@ -37,7 +37,7 @@ public class AuthenticationCtrl {
 
             ResponseCookie cookie = ResponseCookie.from("access-token", token)
                     .httpOnly(true)
-                    .secure(true) // Set to true in production over HTTPS
+                    .secure(false) // Set to true in production over HTTPS
                     .path("/")
                     .maxAge(3600) // 1 hour
                     .sameSite("Lax") // Set to 'Strict' or 'Lax' for CSRF protection

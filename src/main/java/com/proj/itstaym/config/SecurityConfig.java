@@ -30,10 +30,12 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserAuthenticationService userAuthenticationService;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserAuthenticationService userAuthenticationService) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserAuthenticationService userAuthenticationService, JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userAuthenticationService = userAuthenticationService;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
     @Bean
@@ -58,24 +60,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth").permitAll()
+                .authorizeHttpRequests(auth -> auth
 
-                        // TESTING ONLY
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/web/**").permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/img/**").permitAll()
-                        .requestMatchers("/webfonts/**").permitAll()
-
-                        .requestMatchers("/api/user/**", "/api/books/**")
+                        .requestMatchers("/api/auth", "/", "/login", "/css/**", "/js/**", "/img/**", "/webfonts/**").permitAll()
+                        .requestMatchers("/api/user/**", "/api/books/**", "/web/**")
                         .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
-                        .anyRequest().authenticated() // Everything else is authenticated
+
+                        .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint)) // Add this line
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

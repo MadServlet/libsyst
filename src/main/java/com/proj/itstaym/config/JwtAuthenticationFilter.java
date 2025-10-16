@@ -4,6 +4,7 @@ import com.proj.itstaym.security.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -31,44 +33,65 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println("I got triggered!");
+        System.out.println("--- JwtAuthenticationFilter started for path: " + request.getServletPath() + " ---");
+        System.out.println("Cookies sent with request: " + (request.getCookies() != null ? Arrays.toString(request.getCookies()) : "none"));
 
-        if (shouldNotFilter(httpServletRequest)) {
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
-            return;
+        String token = null;
+        if (request.getCookies() != null) {
+            token = Arrays.stream(request.getCookies())
+                    .filter(c -> "access-token".equals(c.getName()))
+                    .findFirst()
+                    .map(Cookie::getValue)
+                    .orElse(null);
         }
 
-        String header = httpServletRequest.getHeader("Authorization");
+        System.out.println("Token from access-token cookie: " + token);
 
-        if (header != null && header.startsWith("Bearer ")) {
+        if (token != null) {
+            try {
+                System.out.println("Attempting to validate token: " + token);
+                String username = jwtUtil.validateAndGetUsername(token);
+                System.out.println("Username from token: " + username);
 
-            String token = header.substring(7);
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    System.out.println("Loading user details for: " + username);
+                    var user = userDetailsService.loadUserByUsername(username);
 
-            String username = jwtUtil.validateAndGetUsername(token);
-
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                var user = userDetailsService.loadUserByUsername(username);
-                var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                    if (user != null) {
+                        System.out.println("User details loaded successfully.");
+                        var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                        System.out.println("SecurityContext populated with user: " + username);
+                    } else {
+                        System.out.println("User details not found for: " + username);
+                    }
+                } else {
+                    System.out.println("SecurityContext already populated or username is null.");
+                }
+            } catch (JwtException e) {
+                System.out.println("JWT validation failed: " + e.getMessage());
+                SecurityContextHolder.clearContext();
             }
+        } else {
+            System.out.println("No access-token cookie found.");
         }
 
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        System.out.println("--- JwtAuthenticationFilter finished ---");
+        filterChain.doFilter(request, response);
     }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        // Define the paths that your filter should NOT process
-        return pathMatcher.match("/api/auth", request.getServletPath()) ||
-                pathMatcher.match("/", request.getServletPath()) ||
-                pathMatcher.match("/login", request.getServletPath()) ||
-                pathMatcher.match("/css/**", request.getServletPath()) ||
-                pathMatcher.match("/js/**", request.getServletPath()) ||
-                pathMatcher.match("/img/**", request.getServletPath()) ||
-                pathMatcher.match("/web/**", request.getServletPath());
-    }
+//
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) {
+//        return pathMatcher.match("/api/auth", request.getServletPath()) ||
+//                pathMatcher.match("/", request.getServletPath()) ||
+//                pathMatcher.match("/login", request.getServletPath()) ||
+//                pathMatcher.match("/css/**", request.getServletPath()) ||
+//                pathMatcher.match("/js/**", request.getServletPath()) ||
+//                pathMatcher.match("/img/**", request.getServletPath()) ||
+//                pathMatcher.match("/web/**", request.getServletPath());
+//    }
 }
