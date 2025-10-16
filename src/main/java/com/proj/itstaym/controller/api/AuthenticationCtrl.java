@@ -1,8 +1,11 @@
-package com.proj.itstaym.controller;
+package com.proj.itstaym.controller.api;
 
-import com.proj.itstaym.controller.records.AuthRecord;
+import com.proj.itstaym.controller.api.records.AuthRecord;
 import com.proj.itstaym.security.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,11 +30,25 @@ public class AuthenticationCtrl {
     }
 
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody AuthRecord req) {
+    public ResponseEntity<?> login(@RequestBody AuthRecord req, HttpServletResponse response) {
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(req.username(), req.password()));
             String token = jwtUtil.generateToken(req.username());
-            return ResponseEntity.ok(Map.of("accessToken", token));
+
+            ResponseCookie cookie = ResponseCookie.from("access-token", token)
+                    .httpOnly(true)
+                    .secure(false) // Set to true in production over HTTPS
+                    .path("/")
+                    .maxAge(3600) // 1 hour
+                    .sameSite("Lax") // Set to 'Strict' or 'Lax' for CSRF protection
+                    .build();
+
+            // 2. Add the cookie to the HTTP response header
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            // 3. Return a successful response
+            return ResponseEntity.ok(Map.of("message", "Login successful"));
+
         } catch (AuthenticationException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
         }

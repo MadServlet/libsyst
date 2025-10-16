@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management System - Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/all.min.css}">
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="ptc-logo">
+        <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
+    </div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="fa-solid fa-eye" onclick="showPassword()" title="Show Password"></i>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+</body>
+
+<script th:src="@{/js/login.js}"></script>
+
+</html>
