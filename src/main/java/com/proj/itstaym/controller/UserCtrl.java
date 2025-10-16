@@ -1,6 +1,7 @@
 package com.proj.itstaym.controller;
 
 import com.proj.itstaym.controller.records.UserRecord;
+import com.proj.itstaym.exception.user.UserNotFoundException;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,14 +36,12 @@ public class UserCtrl {
     // Read
     @GetMapping(path = "/find", params = "id")
     public UserRecord find(@RequestParam BigInteger id) {
-        return userService.find(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return userService.find(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @GetMapping(path = "/find", params = "email")
     public UserRecord find(@RequestParam String email) {
-        return userService.find(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return userService.find(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @GetMapping(path = "/find/bulk", params = {"page", "size"})

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -19,17 +20,35 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserManager userManager;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserRecord createUser(UserRecord user) {
-        return UserRecord.from(userManager.save(user.toEntity()));
+        var entity = user.toEntity();
+
+        if (entity.getPassword() != null && !entity.getPassword().isBlank()) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
+
+        return UserRecord.from(userManager.save(entity));
     }
 
     @Override
     public List<UserRecord> createUsers(List<UserRecord> userRecords) {
-        return userManager.saveAll(
-                userRecords.stream().map(UserRecord::toEntity).toList()
-        ).stream().map(UserRecord::from).toList();
+
+        var entities = userRecords.stream()
+                .map(UserRecord::toEntity)
+                .peek(entity -> {
+                    if (entity.getPassword() != null && !entity.getPassword().isBlank()) {
+                        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+                    }
+                })
+                .toList();
+
+        return userManager.saveAll(entities)
+                .stream()
+                .map(UserRecord::from)
+                .toList();
     }
 
     @Override
