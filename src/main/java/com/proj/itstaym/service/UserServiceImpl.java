@@ -5,15 +5,14 @@ import com.proj.itstaym.manager.api.UserManager;
 import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -67,21 +66,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserRecord> findByCriteria(UserRecord userRecord, Integer page, Integer size) {
+    public Page<UserRecord> findByCriteria(UserRecord userRecord, Pageable pageable) {
         var probe = userRecord.toEntity();
 
-        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+        var matcher = ExampleMatcher.matchingAll()
                 .withIgnoreNullValues()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase();
 
-        Example<User> example = Example.of(probe, matcher);
+        var example = Example.of(probe, matcher);
 
-        List<User> users = userManager.findAll(example);
+        var userPage = userManager.findAll(example, pageable);
 
-        return users.stream()
+        var userRecords = userPage.getContent().stream()
                 .map(UserRecord::from)
-                .toList();
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(userRecords, pageable, userPage.getTotalElements());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.proj.itstaym.service.api;
 
 import com.proj.itstaym.controller.api.records.UserRecord;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -18,7 +20,7 @@ public interface UserService {
 
     List<UserRecord> findAll(Integer page, Integer size);
 
-    List<UserRecord> findByCriteria(UserRecord userRecord, Integer page, Integer size);
+    Page<UserRecord> findByCriteria(UserRecord userRecord, Pageable pageable);
 
     UserRecord updateUser(UserRecord user);
 

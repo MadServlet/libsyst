@@ -4,6 +4,8 @@ import com.proj.itstaym.controller.api.records.UserRecord;
 import com.proj.itstaym.exception.user.UserNotFoundException;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -48,8 +50,9 @@ public class UserCtrl {
     }
 
     @PostMapping(path = "/find/bulk", params = {"page", "size"})
-    public List<UserRecord> findAll(@RequestBody UserRecord userRecord, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-        return userService.findByCriteria(userRecord, page, size);
+    public Page<UserRecord> findAll(@RequestBody UserRecord userRecord, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        var pageable = PageRequest.of(page, size);
+        return userService.findByCriteria(userRecord, pageable);
     }
 
     // Update

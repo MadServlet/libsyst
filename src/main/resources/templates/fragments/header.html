@@ -1,0 +1,18 @@
+<th:block th:fragment="header" xmlns:th="http://www.w3.org/1999/html">
+<header>
+    <div class="title-logo">
+        <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
+        <h1 th:text="${#strings.capitalize(#strings.toLowerCase(user_role))}"></h1>
+    </div>
+
+    <th:block th:replace="~{fragments/navigation :: navigation}"></th:block>
+
+    <div>
+        <form th:action="@{/web/logout}" method="post">
+            <button id="logoutBtn" type="submit">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
+    </div>
+</header>
+</th:block>

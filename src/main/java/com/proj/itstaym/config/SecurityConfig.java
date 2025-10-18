@@ -64,7 +64,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/auth", "/", "/login", "/css/**", "/js/**", "/img/**", "/webfonts/**").permitAll()
                         .requestMatchers("/api/user/**", "/api/books/**", "/web/**")
-                        .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN")
+                        .hasAnyAuthority("STUDENT", "ADMIN", "LIBRARIAN", "TEACHER")
 
                         .anyRequest().authenticated()
                 )
