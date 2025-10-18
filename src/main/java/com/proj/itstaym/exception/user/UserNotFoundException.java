@@ -1,10 +1,8 @@
 package com.proj.itstaym.exception.user;
 
-import java.math.BigInteger;
-
 public class UserNotFoundException extends RuntimeException {
 
-    public UserNotFoundException(BigInteger id) {
+    public UserNotFoundException(Long id) {
         super("User with id " + id + " not found");
     }
 

@@ -1,6 +1,7 @@
 package com.proj.itstaym.service;
 
 import com.proj.itstaym.controller.api.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserSearchRecord;
 import com.proj.itstaym.manager.api.UserManager;
 import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserRecord> find(BigInteger id) {
+    public Optional<UserRecord> find(Long id) {
         return userManager.findById(id).map(UserRecord::from);
     }
 
@@ -66,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserRecord> findByCriteria(UserRecord userRecord, Pageable pageable) {
-        var probe = userRecord.toEntity();
+    public Page<UserRecord> findByCriteria(UserSearchRecord userSearchRecord, Pageable pageable) {
+        var probe = userSearchRecord.toEntity();
 
         var matcher = ExampleMatcher.matchingAll()
                 .withIgnoreNullValues()
@@ -86,8 +87,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRecord updateUser(UserRecord user) {
-        return UserRecord.from(userManager.save(user.toEntity()));
+    public UserRecord updateUser(UserRecord updatedUserRecord) {
+        Optional<User> optionalUser = userManager.findById(updatedUserRecord.id());
+
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+
+            if (updatedUserRecord.fullName() != null && !updatedUserRecord.fullName().isEmpty()) {
+                existingUser.setFullName(updatedUserRecord.fullName());
+            }
+            if (updatedUserRecord.email() != null && !updatedUserRecord.email().isEmpty()) {
+                existingUser.setEmail(updatedUserRecord.email());
+            }
+            if (updatedUserRecord.role() != null) {
+                existingUser.setRole(updatedUserRecord.role());
+            }
+            if (updatedUserRecord.password() != null && !updatedUserRecord.password().isEmpty()) {
+                existingUser.setPassword(updatedUserRecord.password());
+            }
+
+            User savedUser = userManager.save(existingUser);
+            return UserRecord.from(savedUser);
+        } else {
+            throw new RuntimeException("User with ID " + updatedUserRecord.id() + " not found.");
+        }
     }
 
     @Override
@@ -96,7 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(BigInteger id) {
+    public void deleteUser(Long id) {
         userManager.deleteById(id);
     }
 

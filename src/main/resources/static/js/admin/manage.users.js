@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // API constants
-    const API_BASE_URL = '/api/user/find/bulk';
-    const PAGE_SIZE = 5;
+    const API_BASE_URL = '/api/user';
+    const PAGE_SIZE = 10;
 
     // Cache selectors for modal elements
     const $modal = $('#custom-modal');
@@ -10,6 +10,7 @@ $(document).ready(function () {
     const $editFullName = $('#edit-full-name');
     const $editEmail = $('#edit-email');
     const $editPassword = $('#edit-password');
+    var $searchParam = $('#searchUsers').val()
 
     // Function to show the modal
     function showModal() {
@@ -19,7 +20,7 @@ $(document).ready(function () {
     // Function to hide the modal and clear the form
     function hideModal() {
         $modal.addClass('hidden');
-        $editUserForm.reset();
+        $editUserForm[0].reset();
     }
 
     // Function to populate and show the modal
@@ -38,6 +39,7 @@ $(document).ready(function () {
 
     // New function to fetch and render user data for a specific page
     function fetchUsers(searchText, userType, pageNumber) {
+        $searchParam = searchText;
         const requestData = {
             "email": null,
             "fullName": null,
@@ -53,7 +55,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: `${API_BASE_URL}?page=${pageNumber}&size=${PAGE_SIZE}`,
+            url: `${API_BASE_URL}/find/bulk?page=${pageNumber}&size=${PAGE_SIZE}`,
             method: 'POST',
             contentType: "application/json",
             data: JSON.stringify(requestData),
@@ -78,8 +80,7 @@ $(document).ready(function () {
                     tableBody.append('<tr><td colspan="3">No users found.</td></tr>');
                 }
 
-                // Generate and render the pagination links
-                renderPagination(userType, response.totalPages, response.currentPage);
+                renderPagination(userType, response.page.totalPages, pageNumber);
             },
             error: function (error) {
                 console.error(`Error fetching ${userType} data:`, error);
@@ -90,9 +91,15 @@ $(document).ready(function () {
 
     // New function to render pagination controls
     function renderPagination(userType, totalPages, currentPage) {
-        const $paginationContainer = $(`#${userType}-pagination-container`);
-        $paginationContainer.empty();
+        const $paginationContainer = $(`#${userType}s-pagination-container`);
 
+        // Safety check: ensure the container element exists
+        if ($paginationContainer.length === 0) {
+            console.error(`Pagination container #${userType}s-pagination-container not found.`);
+            return;
+        }
+
+        $paginationContainer.empty();
         const $ul = $('<ul class="pagination"></ul>');
 
         // Add 'Previous' button
@@ -102,12 +109,41 @@ $(document).ready(function () {
             </li>
         `);
 
-        // Add page number buttons
-        for (let i = 0; i < totalPages; i++) {
+        // Logic to determine the pages to display in the sliding window
+        const pagesToShow = 5; // Number of page buttons to show at once (e.g., 5)
+        let startPage = Math.max(0, currentPage - Math.floor(pagesToShow / 2));
+        let endPage = Math.min(totalPages - 1, startPage + pagesToShow - 1);
+
+        if (endPage - startPage < pagesToShow - 1) {
+            startPage = Math.max(0, endPage - pagesToShow + 1);
+        }
+
+        // Add first page button if it's not in the window
+        if (startPage > 0) {
+            $ul.append(`
+                <li class="page-item"><a class="page-link" href="#" data-page="0">1</a></li>
+            `);
+            if (startPage > 1) {
+                $ul.append(`<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`);
+            }
+        }
+
+        // Add page number buttons within the sliding window
+        for (let i = startPage; i <= endPage; i++) {
             $ul.append(`
                 <li class="page-item ${i === currentPage ? 'active' : ''}">
                     <a class="page-link" href="#" data-page="${i}">${i + 1}</a>
                 </li>
+            `);
+        }
+
+        // Add last page button if it's not in the window
+        if (endPage < totalPages - 1) {
+            if (endPage < totalPages - 2) {
+                $ul.append(`<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`);
+            }
+            $ul.append(`
+                <li class="page-item"><a class="page-link" href="#" data-page="${totalPages - 1}">${totalPages}</a></li>
             `);
         }
 
@@ -129,11 +165,12 @@ $(document).ready(function () {
     $('.users-container').on('click', '.pagination a.page-link', function (event) {
         event.preventDefault();
         const $link = $(this);
+
         const pageNumber = $link.data('page');
         const userType = $link.closest('.table-section').find('h2 i').hasClass('fa-user-graduate') ? 'student' : 'teacher';
 
         if (!$link.closest('li').hasClass('disabled')) {
-            fetchUsers(userType, pageNumber);
+            fetchUsers($searchParam, userType, pageNumber);
         }
     });
 
@@ -168,16 +205,26 @@ $(document).ready(function () {
             password: $editPassword.val()
         };
 
-        console.log('Saving user data:', formData);
+        $.ajax({
+            url: `${API_BASE_URL}/update`,
+            method: 'PATCH',
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
 
-        // You would perform your AJAX call to update the user here
-        // Then, after a successful update, refresh the current page of the table
-        const userType = $(`tr[data-user-id="${formData.id}"]`).closest('.table-section').find('h2 i').hasClass('fa-user-graduate') ? 'student' : 'teacher';
-        const currentPage = parseInt($(`#${userType}-pagination-container .page-item.active a`).data('page'));
+                const userType = $(`tr[data-user-id="${formData.id}"]`).closest('.table-section').find('h2 i').hasClass('fa-user-graduate') ? 'student' : 'teacher';
+                const currentPage = parseInt($(`#${userType}s-pagination-container .page-item.active a`).data('page'));
 
-        // This is a placeholder call; replace with your actual API call.
-        // fetchUsers(userType, currentPage);
-        hideModal();
+                fetchUsers($searchParam, userType, currentPage);
+                hideModal();
+
+                alert("success");
+            },
+            error: function (error) {
+                console.error(`Error updating, data: ${error}`, error);
+                alert("failed");
+            }
+        });
     });
 
     // Delete user

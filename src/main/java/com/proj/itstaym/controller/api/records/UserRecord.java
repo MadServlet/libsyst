@@ -24,11 +24,11 @@ public record UserRecord(
 
     public User toEntity() {
         var user = new User();
-        if (id != null) user.setId(id);
-        if (email != null && !email.isEmpty()) user.setEmail(email);
-        if (fullName != null && !fullName.isEmpty()) user.setFullName(fullName);
-        if (role != null) user.setRole(role);
-        if (password != null && !password.isEmpty()) user.setPassword(password);
+        user.setId(id);
+        user.setEmail(email);
+        user.setFullName(fullName);
+        user.setRole(role);
+        user.setPassword(password);
         return user;
     }
 }
