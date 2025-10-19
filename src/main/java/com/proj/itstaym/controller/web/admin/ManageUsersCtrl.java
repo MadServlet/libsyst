@@ -27,6 +27,7 @@ public class ManageUsersCtrl {
         model.addAttribute("pageTitle", "Manage Users");
 
         if (role.equals("ADMIN")) {
+            model.addAttribute("pageLabel", "Admin");
             model.addAttribute("contentFragment", "fragments/pages/admin/manage_users");
             model.addAttribute("cssFiles", List.of("/css/admin/manage.users.css"));
             model.addAttribute("jsFiles", List.of("/js/admin/manage.users.js"));
