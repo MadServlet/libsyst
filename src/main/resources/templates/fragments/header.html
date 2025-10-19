@@ -2,7 +2,7 @@
 <header>
     <div class="title-logo">
         <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
-        <h1 th:text="${#strings.capitalize(#strings.toLowerCase(user_role))}"></h1>
+        <h1 th:text="${pageLabel}"></h1>
     </div>
 
     <th:block th:replace="~{fragments/navigation :: navigation}"></th:block>

@@ -35,28 +35,31 @@ public class WebLoginCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Dashboard");
 
-
-
         switch (role) {
             case "ADMIN":
+                model.addAttribute("pageLabel", "Admin");
                 model.addAttribute("contentFragment", "fragments/dashboards/admin");
                 model.addAttribute("cssFiles", List.of("/css/admin/user.creation.css"));
                 model.addAttribute("jsFiles", List.of("/js/admin/user.creation.js"));
                 break;
 
             case "LIBRARIAN":
+                model.addAttribute("pageLabel", "PTC Booklink: Library Management System");
                 model.addAttribute("contentFragment", "fragments/dashboards/librarian");
                 model.addAttribute("cssFiles", List.of("/css/librarian/dashboard.css"));
                 model.addAttribute("jsFiles", List.of("/js/librarian/dashboard.js"));
                 break;
+
             case "TEACHER":
             case "STUDENT":
-                model.addAttribute("contentFragment", "fragments/dashboards/student");
-                model.addAttribute("cssFiles", List.of("/css/student/dashboard.css"));
-                model.addAttribute("jsFiles", List.of("/js/student/dashboard.js"));
+                model.addAttribute("pageLabel", "PTC Booklink: Library Management System");
+                model.addAttribute("contentFragment", "fragments/dashboards/user");
+                model.addAttribute("cssFiles", List.of("/css/user/dashboard.css"));
+                model.addAttribute("jsFiles", List.of("/js/user/dashboard.js"));
                 break;
 
             default:
+                model.addAttribute("pageLabel", "");
                 model.addAttribute("contentFragment", "fragments/error/unauthorized");
                 model.addAttribute("status", "403");
                 model.addAttribute("error", "Authority Not Verified");
