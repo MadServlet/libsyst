@@ -233,14 +233,25 @@ $(document).ready(function () {
         const $row = $(this).closest('tr');
         const id = $row.data('user-id');
         const name = $row.find('td').eq(0).text();
-        const userType = $row.closest('.table-section').find('h2').text().trim();
+        const userType = $row.closest('.table-section').find('h2').data('user-type');
+        const currentPage = parseInt($(`#${userType}s-pagination-container .page-item.active a`).data('page'));
+        const searchText = $searchParam;
 
         if (confirm(`Are you sure you want to delete ${userType}: ${name}?`)) {
-            // Your delete logic here
-            // On success, refresh the table
-            // fetchUsers(userType, currentPage);
-            $row.remove();
-            console.log(`Deleted ${userType} with ID: ${id}`);
+//            console.log(`searchText: ${searchText}, userType: ${userType.toLowerCase()}, currentPage: ${currentPage}`);
+//            console.log($(`#${userType.toLowerCase()}-pagination-container .page-item.active a`).data('page'));
+            $.ajax({
+                url: `${API_BASE_URL}/delete?id=${id}`,
+                method: 'DELETE',
+                success: function (response) {
+                    fetchUsers($searchParam, userType, currentPage);
+                    alert("success");
+                },
+                error: function (error) {
+                    console.error(`Error updating, data: ${error}`, error);
+                    alert("failed");
+                }
+            });
         }
     });
 
