@@ -10,7 +10,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +32,7 @@ public class BookServiceImpl implements BookService {
 
     // Read
     @Override
-    public BookRecord find(BigInteger id) {
+    public BookRecord find(Long id) {
         return bookManager.findById(id)
                 .map(BookRecord::from)
                 .orElseThrow(() -> new NoSuchElementException("Book not found: " + id));
@@ -79,7 +78,7 @@ public class BookServiceImpl implements BookService {
 
     // Delete
     @Override
-    public void deleteBook(BigInteger id) {
+    public void deleteBook(Long id) {
         bookManager.deleteById(id);
     }
 }

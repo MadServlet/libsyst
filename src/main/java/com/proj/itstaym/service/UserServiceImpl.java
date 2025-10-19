@@ -1,19 +1,19 @@
 package com.proj.itstaym.service;
 
 import com.proj.itstaym.controller.api.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserSearchRecord;
 import com.proj.itstaym.manager.api.UserManager;
 import com.proj.itstaym.model.User;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserRecord> find(BigInteger id) {
+    public Optional<UserRecord> find(Long id) {
         return userManager.findById(id).map(UserRecord::from);
     }
 
@@ -67,26 +67,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserRecord> findByCriteria(UserRecord userRecord, Integer page, Integer size) {
-        var probe = userRecord.toEntity();
+    public Page<UserRecord> findByCriteria(UserSearchRecord userSearchRecord, Pageable pageable) {
+        var probe = userSearchRecord.toEntity();
 
-        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+        var matcher = ExampleMatcher.matchingAll()
                 .withIgnoreNullValues()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase();
 
-        Example<User> example = Example.of(probe, matcher);
+        var example = Example.of(probe, matcher);
 
-        List<User> users = userManager.findAll(example);
+        var userPage = userManager.findAll(example, pageable);
 
-        return users.stream()
+        var userRecords = userPage.getContent().stream()
                 .map(UserRecord::from)
-                .toList();
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(userRecords, pageable, userPage.getTotalElements());
     }
 
     @Override
-    public UserRecord updateUser(UserRecord user) {
-        return UserRecord.from(userManager.save(user.toEntity()));
+    public UserRecord updateUser(UserRecord updatedUserRecord) {
+        Optional<User> optionalUser = userManager.findById(updatedUserRecord.id());
+
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+
+            if (updatedUserRecord.fullName() != null && !updatedUserRecord.fullName().isEmpty()) {
+                existingUser.setFullName(updatedUserRecord.fullName());
+            }
+            if (updatedUserRecord.email() != null && !updatedUserRecord.email().isEmpty()) {
+                existingUser.setEmail(updatedUserRecord.email());
+            }
+            if (updatedUserRecord.role() != null) {
+                existingUser.setRole(updatedUserRecord.role());
+            }
+            if (updatedUserRecord.password() != null && !updatedUserRecord.password().isEmpty()) {
+                existingUser.setPassword(updatedUserRecord.password());
+            }
+
+            User savedUser = userManager.save(existingUser);
+            return UserRecord.from(savedUser);
+        } else {
+            throw new RuntimeException("User with ID " + updatedUserRecord.id() + " not found.");
+        }
     }
 
     @Override
@@ -95,7 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(BigInteger id) {
+    public void deleteUser(Long id) {
         userManager.deleteById(id);
     }
 

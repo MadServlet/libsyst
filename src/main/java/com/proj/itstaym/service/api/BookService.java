@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookService {
 
-    BookRecord find(BigInteger id);
+    BookRecord find(Long id);
 
     List<BookRecord> findAll();
 
@@ -21,6 +21,6 @@ public interface BookService {
 
     BookRecord updateBook(BookRecord bookRecord);
 
-    void deleteBook(BigInteger id);
+    void deleteBook(Long id);
 
 }

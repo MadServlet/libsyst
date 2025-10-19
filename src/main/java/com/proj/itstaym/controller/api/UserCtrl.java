@@ -1,9 +1,12 @@
 package com.proj.itstaym.controller.api;
 
 import com.proj.itstaym.controller.api.records.UserRecord;
+import com.proj.itstaym.controller.api.records.UserSearchRecord;
 import com.proj.itstaym.exception.user.UserNotFoundException;
 import com.proj.itstaym.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -33,7 +36,7 @@ public class UserCtrl {
 
     // Read
     @GetMapping(path = "/find", params = "id")
-    public UserRecord find(@RequestParam BigInteger id) {
+    public UserRecord find(@RequestParam Long id) {
         return userService.find(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
@@ -48,8 +51,9 @@ public class UserCtrl {
     }
 
     @PostMapping(path = "/find/bulk", params = {"page", "size"})
-    public List<UserRecord> findAll(@RequestBody UserRecord userRecord, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-        return userService.findByCriteria(userRecord, page, size);
+    public Page<UserRecord> findAll(@RequestBody UserSearchRecord userSearchRecord, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        var pageable = PageRequest.of(page, size);
+        return userService.findByCriteria(userSearchRecord, pageable);
     }
 
     // Update
@@ -65,7 +69,7 @@ public class UserCtrl {
 
     // Delete
     @DeleteMapping(path = "/delete", params = "id")
-    public void deleteUser(@RequestParam("id") BigInteger id) {
+    public void deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
     }
 

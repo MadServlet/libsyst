@@ -1,11 +1,8 @@
 package com.proj.itstaym.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -39,20 +36,20 @@ public class JwtUtil {
 
     public String validateAndGetUsername(String token) {
         try {
-
             Jws<Claims> jwsClaims = Jwts.parser()
                     .verifyWith(key)
                     .build()
                     .parseSignedClaims(token);
 
             Claims claims = jwsClaims.getPayload();
-
             return claims.getSubject();
 
-        } catch (SignatureException e) {
-            throw new RuntimeException("Invalid JWT signature", e);
-        } catch (Exception e) {
-            throw new RuntimeException("Invalid JWT token", e);
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token expired: " + e.getMessage());
+            throw e;
+        } catch (JwtException e) { // includes SignatureException
+            System.out.println("Invalid JWT: " + e.getMessage());
+            throw e;
         }
     }
 }

@@ -1,0 +1,11 @@
+<th:block th:fragment="navigation">
+    <th:block sec:authorize="hasAuthority('ADMIN')"
+              th:replace="~{fragments/navigations/admin :: navigation}"></th:block>
+
+    <th:block sec:authorize="hasAuthority('STUDENT')"
+              th:replace="~{fragments/navigations/user :: navigation}"></th:block>
+
+    <th:block sec:authorize="hasAuthority('LIBRARIAN')"
+              th:replace="~{fragments/navigations/librarian :: navigation}"></th:block>
+</th:block>
+

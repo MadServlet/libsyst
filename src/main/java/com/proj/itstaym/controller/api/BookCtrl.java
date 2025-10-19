@@ -5,7 +5,6 @@ import com.proj.itstaym.service.api.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -21,18 +20,18 @@ public class BookCtrl {
 
     // Create
     @PostMapping("/save")
-    public BookRecord saveBook(@RequestBody BookRecord bookRecord){
+    public BookRecord saveBook(@RequestBody BookRecord bookRecord) {
         return bookService.createBook(bookRecord);
     }
 
     @PostMapping("/save/bulk")
-    public List<BookRecord> saveBook(@RequestBody List<BookRecord> bookRecords){
+    public List<BookRecord> saveBook(@RequestBody List<BookRecord> bookRecords) {
         return bookService.createBooks(bookRecords);
     }
 
     // Read
     @GetMapping(path = "/find", params = "id")
-    public BookRecord findById(@RequestParam("id") BigInteger id) {
+    public BookRecord findById(@RequestParam("id") Long id) {
         return bookService.find(id);
     }
 
@@ -41,7 +40,7 @@ public class BookCtrl {
         return bookService.findAll();
     }
 
-    @GetMapping(path = "/find", params = {"page","size"})
+    @GetMapping(path = "/find", params = {"page", "size"})
     public List<BookRecord> findAll(Integer page, Integer size) {
         return bookService.findAll(page, size);
     }
@@ -59,7 +58,7 @@ public class BookCtrl {
 
     // Delete
     @DeleteMapping(path = "/update", params = "id")
-    public void deleteBook(@RequestParam("id") BigInteger id) {
+    public void deleteBook(@RequestParam("id") Long id) {
         bookService.deleteBook(id);
     }
 

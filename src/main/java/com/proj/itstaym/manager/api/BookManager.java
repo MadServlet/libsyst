@@ -8,6 +8,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Repository
-public interface BookManager extends JpaRepository<Book, BigInteger> {
+public interface BookManager extends JpaRepository<Book, Long> {
 
 }
