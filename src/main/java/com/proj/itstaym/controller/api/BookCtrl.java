@@ -1,6 +1,7 @@
 package com.proj.itstaym.controller.api;
 
 import com.proj.itstaym.controller.api.records.BookRecord;
+import com.proj.itstaym.controller.api.records.BookStatisticsRecord;
 import com.proj.itstaym.service.api.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,11 @@ public class BookCtrl {
     @PostMapping(path = "/find")
     public List<BookRecord> findByCriteria(@RequestBody BookRecord bookRecord) {
         return bookService.findByCriteria(bookRecord);
+    }
+
+    @GetMapping(path = "/count")
+    public BookStatisticsRecord countAll() {
+        return bookService.countAll();
     }
 
     // Update
