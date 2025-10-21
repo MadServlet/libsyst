@@ -1,4 +1,4 @@
-package com.proj.itstaym.controller.web.admin;
+package com.proj.itstaym.controller.web;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/web/admin")
-public class ManageUsersCtrl {
+@RequestMapping("/web/user")
+public class WebUserCtrl {
 
-    @GetMapping("/manage/users")
-    public String showManageUser(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public final String PAGE_LABEL = "PTC Booklink: Library Management System";
+
+    @GetMapping("/reports/lending")
+    public String showLendingReport(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         var role = userDetails.getAuthorities()
                 .stream()
@@ -24,13 +26,13 @@ public class ManageUsersCtrl {
                 .orElse("UNKNOWN");
 
         model.addAttribute("user_role", role);
-        model.addAttribute("pageTitle", "Manage Users");
+        model.addAttribute("pageTitle", "Borrow/Return History");
 
-        if (role.equals("ADMIN")) {
-            model.addAttribute("pageLabel", "Admin");
-            model.addAttribute("contentFragment", "fragments/pages/admin/manage_users");
-            model.addAttribute("cssFiles", List.of("/css/admin/manage.users.css"));
-            model.addAttribute("jsFiles", List.of("/js/admin/manage.users.js"));
+        if (role.equals("STUDENT") || role.equals("TEACHER")) {
+            model.addAttribute("pageLabel", PAGE_LABEL);
+            model.addAttribute("contentFragment", "fragments/pages/user/borrow_return_history");
+            model.addAttribute("cssFiles", List.of("/css/user/borrow.return.history.css"));
+            model.addAttribute("jsFiles", List.of("/js/user/borrow.return.history.js"));
         } else {
             model.addAttribute("contentFragment", "fragments/error/unauthorized");
             model.addAttribute("status", "403");

@@ -2,7 +2,7 @@
     <th:block sec:authorize="hasAuthority('ADMIN')"
               th:replace="~{fragments/navigations/admin :: navigation}"></th:block>
 
-    <th:block sec:authorize="hasAuthority('STUDENT')"
+    <th:block sec:authorize="hasAuthority('STUDENT') or hasAuthority('TEACHER')"
               th:replace="~{fragments/navigations/user :: navigation}"></th:block>
 
     <th:block sec:authorize="hasAuthority('LIBRARIAN')"
