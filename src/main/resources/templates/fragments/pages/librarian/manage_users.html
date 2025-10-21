@@ -1,0 +1,62 @@
+<div class="container_s">
+    <h2>Users</h2>
+
+
+    <div class="tabs">
+        <button class="tab-link active" onclick="openTab(event, 'students')">Students</button>
+        <button class="tab-link" onclick="openTab(event, 'teachers')">Teachers</button>
+    </div>
+
+
+    <div id="students" class="tab-content active">
+        <h3>Students</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Borrowed Books</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Alice</td>
+                <td>example@paterostechnologicalcollege.edu.ph</td>
+                <td>1984, Brave New World</td>
+                <td><button class="remind" onclick="sendReminder('Alice')">Remind</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Bob</td>
+                <td>example@paterostechnologicalcollege.edu.ph</td>
+                <td>The Great Gatsby</td>
+                <td><button class="remind" onclick="sendReminder('Bob')">Remind</button></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="teachers" class="tab-content">
+        <h3>Teachers</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Borrowed Books</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Mr. Smith</td>
+                <td>A Brief History of Time</td>
+                <td><button class="remind" onclick="sendReminder('Mr. Smith')">Remind</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Mrs. Johnson</td>
+                <td>The Catcher in the Rye</td>
+                <td><button class="remind" onclick="sendReminder('Mrs. Johnson')">Remind</button></td>
+            </tr>
+        </table>
+    </div>
+</div>

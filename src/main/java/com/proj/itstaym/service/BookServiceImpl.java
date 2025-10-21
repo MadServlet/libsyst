@@ -1,6 +1,7 @@
 package com.proj.itstaym.service;
 
 import com.proj.itstaym.controller.api.records.BookRecord;
+import com.proj.itstaym.controller.api.records.BookStatisticsRecord;
 import com.proj.itstaym.manager.api.BookManager;
 import com.proj.itstaym.model.Book;
 import com.proj.itstaym.service.api.BookService;
@@ -68,6 +69,12 @@ public class BookServiceImpl implements BookService {
         return books.stream()
                 .map(BookRecord::from)
                 .toList();
+    }
+
+    @Override
+    public BookStatisticsRecord countAll() {
+        var totalCount = bookManager.count();
+        return new BookStatisticsRecord(totalCount, 0L, 0L);
     }
 
     // Update

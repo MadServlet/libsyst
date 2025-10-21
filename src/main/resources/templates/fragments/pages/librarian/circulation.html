@@ -1,0 +1,36 @@
+<div class="container_s">
+
+    <div class="section">
+        <h2>Borrow Book</h2>
+        <form onsubmit="return issueBook(event);">
+            <button type="button" id="scanIssueMemberBtn" onclick="openQrScanner('issueMember')">Scan Member QR</button>
+            <input type="hidden" id="issueMember" required>
+            <button type="button" id="scanIssueBookBtn" onclick="openQrScanner('issueBookTitle')">Scan Book QR</button>
+            <input type="hidden" id="issueBookTitle" required>
+            <p>Borrow Date</p>
+            <input type="date" id="issueDate" placeholder="Issue Date" required>
+            <p>Due Date</p>
+            <input type="date" id="dueDate" placeholder="Due Date" required>
+            <button type="submit">Borrow</button>
+        </form>
+    </div>
+
+
+    <div class="section">
+        <h2>Return Book</h2>
+        <form onsubmit="return returnBook(event);">
+            <button type="button" id="scanReturnMemberBtn" onclick="openQrScanner('returnMember')">Scan Member QR</button>
+            <input type="hidden" id="returnMember" required>
+            <button type="button" id="scanReturnBookBtn" onclick="openQrScanner('returnBookTitle')">Scan Book QR</button>
+            <input type="hidden" id="returnBookTitle" required>
+            <p>Return Date</p>
+            <input type="date" id="returnDate" placeholder="Return Date" required>
+            <button type="submit">Return Book</button>
+        </form>
+    </div>
+
+    <div id="qrScannerModal" style="display: none;">
+        <div id="reader" style="width: 300px; height: 300px; margin: auto;"></div>
+        <button onclick="closeQrScanner()">Close</button>
+    </div>
+</div>

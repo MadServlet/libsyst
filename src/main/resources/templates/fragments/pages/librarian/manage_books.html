@@ -1,0 +1,49 @@
+<div class="container_s">
+    <h2>Books Page</h2>
+
+
+    <div class="button-container">
+        <button id="openModalBtn" onclick="openModal()">Add New Book</button>
+        <label for="bulkImportInput" class="bulk-import-label">
+            <i class="fas fa-file-import"></i> Bulk Import (.xlsx, .csv)
+        </label>
+        <input type="file" id="bulkImportInput" accept=".csv, .xlsx" style="display: none;"
+               onchange="handleBulkImport(event)">
+    </div>
+
+
+    <div id="addBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Add Book</h3>
+            <form id="addBookForm" onsubmit="return addBook(event);">
+                <input type="text" id="modalBookTitle" placeholder="Book Title" required>
+                <input type="text" id="modalBookAuthor" placeholder="Author" required>
+                <input type="text" id="modalBookEdition" placeholder="Edition">
+                <input type="text" id="modalBookPublisher" placeholder="Publisher">
+                <input type="text" id="modalBookYear" placeholder="Year" min="1000" max="2500" required>
+                <button type="submit">Add Book</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search by Accession Number, Title, Author, Publisher, or Year"
+               onkeyup="searchBooks()">
+    </div>
+
+    <h3>Books List</h3>
+    <table id="booksTable">
+        <tr>
+            <th>Accession Number</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Edition</th>
+            <th>Publisher</th>
+            <th>Year</th>
+            <th>QR Code</th>
+            <th>Action</th> <!-- Add Action column -->
+        </tr>
+    </table>
+</div>
