@@ -1,11 +1,10 @@
 package com.proj.itstaym.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.Year;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -18,8 +17,9 @@ public class Book {
     private String edition;
     private String publisher;
     private Year year;
-    private String code;
-    private Integer copies;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookCopy> copies = new HashSet<>();
 
     public Book() {
 
@@ -73,19 +73,11 @@ public class Book {
         this.year = year;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Integer getCopies() {
+    public Set<BookCopy> getCopies() {
         return copies;
     }
 
-    public void setCopies(Integer copies) {
+    public void setCopies(Set<BookCopy> copies) {
         this.copies = copies;
     }
 }

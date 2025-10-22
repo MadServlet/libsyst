@@ -46,3 +46,64 @@
 .history-table tr:hover {
   background-color: #ddd;
 }
+
+/* Pagination */
+/* ensure pagination container is full width like the table (match .history-table-container width) */
+#paginationControls {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 90%;
+  margin-left: auto;
+  margin-right: 0;
+  box-sizing: border-box;
+  gap: 8px;
+  text-align: initial !important; /* cancel the inline text-align:center */
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.pagination .page-item:first-child .page-link {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.pagination .page-item:last-child .page-link {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.pagination .page-item .page-link {
+    position: relative;
+    display: block;
+    color: #4CAF50;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    margin-left: -1px;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #45a049;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}

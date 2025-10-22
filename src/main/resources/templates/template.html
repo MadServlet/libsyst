@@ -8,6 +8,9 @@
         <link rel="stylesheet" th:href="@{/css/all.min.css}">
 
         <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+        <script th:src="@{/js/xlsx.full.min.js}"></script>
+        <script th:src="@{/js/jspdf.umd.min.js}"></script>
+        <script th:src="@{/js/jspdf.plugin.autotable.min.js}"></script>
 
         <th:block th:each="css : ${cssFiles}">
             <link rel="stylesheet" th:href="@{${css}}">
