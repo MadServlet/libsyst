@@ -43,10 +43,7 @@ public class AuthenticationCtrl {
                     .sameSite("Lax") // Set to 'Strict' or 'Lax' for CSRF protection
                     .build();
 
-            // 2. Add the cookie to the HTTP response header
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-
-            // 3. Return a successful response
             return ResponseEntity.ok(Map.of("message", "Login successful"));
 
         } catch (AuthenticationException ex) {
