@@ -24,8 +24,8 @@ public class WebAdminCtrl {
         model.addAttribute("pageTitle", "Admin - Create User Account");
         model.addAttribute("pageLabel", "Admin");
         model.addAttribute("contentFragment", "fragments/pages/admin/admin_dashboard");
-        model.addAttribute("cssFiles", List.of("/css/admin/user.creation.css"));
-        model.addAttribute("jsFiles", List.of("/js/admin/user.creation.js"));
+        model.addAttribute("cssFiles", List.of("/css/admin/admin.user.creation.css"));
+        model.addAttribute("jsFiles", List.of("/js/admin/admin.user.creation.js"));
 
 
         return "template";
@@ -40,9 +40,9 @@ public class WebAdminCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Admin - User Management");
         model.addAttribute("pageLabel", "Admin");
-        model.addAttribute("contentFragment", "fragments/pages/admin/manage_users");
-        model.addAttribute("cssFiles", List.of("/css/admin/manage.users.css"));
-        model.addAttribute("jsFiles", List.of("/js/admin/manage.users.js"));
+        model.addAttribute("contentFragment", "fragments/pages/admin/admin_manage_users");
+        model.addAttribute("cssFiles", List.of("/css/admin/admin.manage.users.css"));
+        model.addAttribute("jsFiles", List.of("/js/admin/admin.manage.users.js"));
 
         return "template";
     }
@@ -58,9 +58,9 @@ public class WebAdminCtrl {
         model.addAttribute("pageTitle", "Borrow/Return History");
         model.addAttribute("pageLabel", "Admin");
         model.addAttribute("contentTitle", "User Borrow/Return History");
-        model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
-        model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
-        model.addAttribute("jsFiles", List.of("/js/generic/borrow.return.history.js"));
+        model.addAttribute("contentFragment", "fragments/pages/generic/generic_borrow_return_history");
+        model.addAttribute("cssFiles", List.of("/css/generic/generic.borrow.return.history.css"));
+        model.addAttribute("jsFiles", List.of("/js/generic/generic.borrow.return.history.js"));
 
         return "template";
     }

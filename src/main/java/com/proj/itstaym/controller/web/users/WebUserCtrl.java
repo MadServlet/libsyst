@@ -26,8 +26,8 @@ public class WebUserCtrl {
         model.addAttribute("pageTitle", "Library Management System - Dashboard");
         model.addAttribute("pageLabel", PAGE_LABEL);
         model.addAttribute("contentFragment", "fragments/pages/user/user_dashboard");
-        model.addAttribute("cssFiles", List.of("/css/user/dashboard.css"));
-        model.addAttribute("jsFiles", List.of("/js/user/dashboard.js"));
+        model.addAttribute("cssFiles", List.of("/css/user/user.dashboard.css"));
+        model.addAttribute("jsFiles", List.of("/js/user/user.dashboard.js"));
 
         return "template";
     }
@@ -42,9 +42,9 @@ public class WebUserCtrl {
         model.addAttribute("pageTitle", "Borrowed/Returned History Books");
         model.addAttribute("pageLabel", PAGE_LABEL);
         model.addAttribute("contentTitle", "Borrow/Return History");
-        model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
-        model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
-        model.addAttribute("jsFiles", List.of("/js/generic/borrow.return.history.js"));
+        model.addAttribute("contentFragment", "fragments/pages/generic/generic_borrow_return_history");
+        model.addAttribute("cssFiles", List.of("/css/generic/generic.borrow.return.history.css"));
+        model.addAttribute("jsFiles", List.of("/js/generic/generic.borrow.return.history.js"));
 
         return "template";
     }

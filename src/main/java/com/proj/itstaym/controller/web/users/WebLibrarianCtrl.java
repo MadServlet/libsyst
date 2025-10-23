@@ -26,8 +26,8 @@ public class WebLibrarianCtrl {
         model.addAttribute("pageTitle", "Library Management System - Dashboard");
         model.addAttribute("pageLabel", PAGE_LABEL);
         model.addAttribute("contentFragment", "fragments/pages/librarian/librarian_dashboard");
-        model.addAttribute("cssFiles", List.of("/css/librarian/dashboard.css"));
-        model.addAttribute("jsFiles", List.of("/js/librarian/dashboard.js"));
+        model.addAttribute("cssFiles", List.of("/css/librarian/librarian.dashboard.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/librarian.dashboard.js"));
 
         return "template";
     }
@@ -41,9 +41,9 @@ public class WebLibrarianCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Library Management System - Books");
         model.addAttribute("pageLabel", PAGE_LABEL);
-        model.addAttribute("contentFragment", "fragments/pages/librarian/manage_books");
-        model.addAttribute("cssFiles", List.of("/css/librarian/manage.books.css"));
-        model.addAttribute("jsFiles", List.of("/js/librarian/manage.books.js"));
+        model.addAttribute("contentFragment", "fragments/pages/librarian/librarian_manage_books");
+        model.addAttribute("cssFiles", List.of("/css/librarian/librarian.manage.books.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/librarian.manage.books.js"));
 
         return "template";
     }
@@ -57,9 +57,9 @@ public class WebLibrarianCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Library Management System - Users");
         model.addAttribute("pageLabel", PAGE_LABEL);
-        model.addAttribute("contentFragment", "fragments/pages/librarian/manage_users");
-        model.addAttribute("cssFiles", List.of("/css/librarian/manage.users.css"));
-        model.addAttribute("jsFiles", List.of("/js/librarian/manage.users.js"));
+        model.addAttribute("contentFragment", "fragments/pages/librarian/librarian_manage_users");
+        model.addAttribute("cssFiles", List.of("/css/librarian/librarian.manage.users.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/librarian.manage.users.js"));
 
 
         return "template";
@@ -74,9 +74,9 @@ public class WebLibrarianCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Library Management System - Borrow & Return Books");
         model.addAttribute("pageLabel", PAGE_LABEL);
-        model.addAttribute("contentFragment", "fragments/pages/librarian/circulation");
-        model.addAttribute("cssFiles", List.of("/css/librarian/circulation.css"));
-        model.addAttribute("jsFiles", List.of("/js/librarian/circulation.js"));
+        model.addAttribute("contentFragment", "fragments/pages/librarian/librarian_circulation");
+        model.addAttribute("cssFiles", List.of("/css/librarian/librarian.circulation.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/librarian.circulation.js"));
 
         return "template";
     }
@@ -91,9 +91,9 @@ public class WebLibrarianCtrl {
         model.addAttribute("pageTitle", "Borrow/Return History");
         model.addAttribute("pageLabel", PAGE_LABEL);
         model.addAttribute("contentTitle", "User Borrow/Return History");
-        model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
-        model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
-        model.addAttribute("jsFiles", List.of("/js/generic/borrow.return.history.js"));
+        model.addAttribute("contentFragment", "fragments/pages/generic/generic_borrow_return_history");
+        model.addAttribute("cssFiles", List.of("/css/generic/generic.borrow.return.history.css"));
+        model.addAttribute("jsFiles", List.of("/js/generic/generic.borrow.return.history.js"));
 
         return "template";
     }
