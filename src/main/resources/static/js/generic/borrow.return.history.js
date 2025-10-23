@@ -1,4 +1,4 @@
-// Function to generate Excel report
+var user_role = 'NONE';
 function generateExcel() {
 
   $.getJSON("/api/lending/report/history/bulk")
@@ -29,14 +29,6 @@ function generatePDF() {
 
   $.getJSON("/api/lending/report/history/bulk")
     .done((response) => {
-//      const simplified = response.map(item => ({
-//        "User Name": item.user.fullName,
-//        "Email": item.user.email,
-//        "Book Title": item.book.title,
-//        "Author": item.book.author,
-//        "Borrowed Date": item.loanDate ? formatDate(item.loanDate) : "",
-//        "Returned Date": item.returnDate ? formatDate(item.returnDate) : "—"
-//      }));
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({
@@ -48,12 +40,12 @@ function generatePDF() {
       doc.text("Borrow History", 14, 15);
 
       const rows = response.map(r => [
-          r.user.fullName,
-          r.user.email,
-          r.book.title,
-          r.book.author,
-          r.loanDate ? formatDate(r.loanDate) : "",
-          r.returnDate ? formatDate(r.returnDate) : "—"
+        r.user.fullName,
+        r.user.email,
+        r.book.title,
+        r.book.author,
+        r.loanDate ? formatDate(r.loanDate) : "",
+        r.returnDate ? formatDate(r.returnDate) : "—"
       ]);
 
       doc.autoTable({
@@ -100,14 +92,15 @@ class LoanTable {
   }
 
   loadPage(page) {
+
     $.getJSON(this.apiUrl, { page: page, size: this.pageSize })
-      .done((response) => {
-        this.renderTable(response.content);
-        this.renderPagination(response.page);
-      })
-      .fail(() => {
-        this.$tbody.html(`<tr><td colspan="6">Error loading data</td></tr>`);
-      });
+        .done((response) => {
+          this.renderTable(response.content);
+          this.renderPagination(response.page);
+        })
+        .fail(() => {
+          this.$tbody.html(`<tr><td colspan="6">Error loading data</td></tr>`);
+        });
   }
 
   renderTable(data) {
@@ -119,8 +112,12 @@ class LoanTable {
 
     data.forEach(item => {
       const row = $("<tr>");
-      row.append($("<td>").text(item.user.fullName));
-      row.append($("<td>").text(item.user.email));
+
+      if (user_role === "ADMIN" || user_role === "LIBRARIAN") {
+        row.append($("<td>").text(item.user.fullName));
+        row.append($("<td>").text(item.user.email));
+      }
+
       row.append($("<td>").text(item.book.title));
       row.append($("<td>").text(item.book.author));
       row.append($("<td>").text(formatDate(item.loanDate)));
@@ -213,4 +210,6 @@ $(document).ready(function () {
     "#paginationControls",
     10
   );
+
+  user_role = $("#userType").data('role');
 });

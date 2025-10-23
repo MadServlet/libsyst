@@ -1,6 +1,6 @@
 package com.proj.itstaym.controller.web;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.proj.itstaym.utils.CommonUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,29 +16,34 @@ public class WebLibrarianCtrl {
 
     public final String PAGE_LABEL = "PTC Booklink: Library Management System";
 
+    @GetMapping("/dashboard")
+    public String showDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+
+        var role = CommonUtils.getRole(userDetails);
+        if (!role.equals("LIBRARIAN")) return "redirect:/web/invalid";
+
+        model.addAttribute("user_role", role);
+        model.addAttribute("pageTitle", "Library Management System - Dashboard");
+        model.addAttribute("pageLabel", PAGE_LABEL);
+        model.addAttribute("contentFragment", "fragments/dashboards/librarian");
+        model.addAttribute("cssFiles", List.of("/css/librarian/dashboard.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/dashboard.js"));
+
+        return "template";
+    }
+
     @GetMapping("/manage/books")
     public String showManageBooks(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        var role = userDetails.getAuthorities()
-                .stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("UNKNOWN");
+        var role = CommonUtils.getRole(userDetails);
+        if (!role.equals("LIBRARIAN")) return "redirect:/web/invalid";
 
         model.addAttribute("user_role", role);
-        model.addAttribute("pageTitle", "Manage Users");
-
-        if (role.equals("LIBRARIAN")) {
-            model.addAttribute("pageLabel", PAGE_LABEL);
-            model.addAttribute("contentFragment", "fragments/pages/librarian/manage_books");
-            model.addAttribute("cssFiles", List.of("/css/librarian/manage.books.css"));
-            model.addAttribute("jsFiles", List.of("/js/librarian/manage.books.js"));
-        } else {
-            model.addAttribute("contentFragment", "fragments/error/unauthorized");
-            model.addAttribute("status", "403");
-            model.addAttribute("error", "Authority Not Verified");
-            model.addAttribute("message", "Something went wrong with your account");
-        }
+        model.addAttribute("pageTitle", "Library Management System - Books");
+        model.addAttribute("pageLabel", PAGE_LABEL);
+        model.addAttribute("contentFragment", "fragments/pages/librarian/manage_books");
+        model.addAttribute("cssFiles", List.of("/css/librarian/manage.books.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/manage.books.js"));
 
         return "template";
     }
@@ -46,26 +51,16 @@ public class WebLibrarianCtrl {
     @GetMapping("/manage/users")
     public String showManageUsers(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        var role = userDetails.getAuthorities()
-                .stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("UNKNOWN");
+        var role = CommonUtils.getRole(userDetails);
+        if (!role.equals("LIBRARIAN")) return "redirect:/web/invalid";
 
         model.addAttribute("user_role", role);
-        model.addAttribute("pageTitle", "Manage Users");
+        model.addAttribute("pageTitle", "Library Management System - Users");
+        model.addAttribute("pageLabel", PAGE_LABEL);
+        model.addAttribute("contentFragment", "fragments/pages/librarian/manage_users");
+        model.addAttribute("cssFiles", List.of("/css/librarian/manage.users.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/manage.users.js"));
 
-        if (role.equals("LIBRARIAN")) {
-            model.addAttribute("pageLabel", PAGE_LABEL);
-            model.addAttribute("contentFragment", "fragments/pages/librarian/manage_users");
-            model.addAttribute("cssFiles", List.of("/css/librarian/manage.users.css"));
-            model.addAttribute("jsFiles", List.of("/js/librarian/manage.users.js"));
-        } else {
-            model.addAttribute("contentFragment", "fragments/error/unauthorized");
-            model.addAttribute("status", "403");
-            model.addAttribute("error", "Authority Not Verified");
-            model.addAttribute("message", "Something went wrong with your account");
-        }
 
         return "template";
     }
@@ -73,26 +68,15 @@ public class WebLibrarianCtrl {
     @GetMapping("/manage/circulation")
     public String showManageCirculation(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        var role = userDetails.getAuthorities()
-                .stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("UNKNOWN");
+        var role = CommonUtils.getRole(userDetails);
+        if (!role.equals("LIBRARIAN")) return "redirect:/web/invalid";
 
         model.addAttribute("user_role", role);
-        model.addAttribute("pageTitle", "Circulation");
-
-        if (role.equals("LIBRARIAN")) {
-            model.addAttribute("pageLabel", PAGE_LABEL);
-            model.addAttribute("contentFragment", "fragments/pages/librarian/circulation");
-            model.addAttribute("cssFiles", List.of("/css/librarian/circulation.css"));
-            model.addAttribute("jsFiles", List.of("/js/librarian/circulation.js"));
-        } else {
-            model.addAttribute("contentFragment", "fragments/error/unauthorized");
-            model.addAttribute("status", "403");
-            model.addAttribute("error", "Authority Not Verified");
-            model.addAttribute("message", "Something went wrong with your account");
-        }
+        model.addAttribute("pageTitle", "Library Management System - Borrow & Return Books");
+        model.addAttribute("pageLabel", PAGE_LABEL);
+        model.addAttribute("contentFragment", "fragments/pages/librarian/circulation");
+        model.addAttribute("cssFiles", List.of("/css/librarian/circulation.css"));
+        model.addAttribute("jsFiles", List.of("/js/librarian/circulation.js"));
 
         return "template";
     }
@@ -100,26 +84,16 @@ public class WebLibrarianCtrl {
     @GetMapping("/reports/lending")
     public String showReportsLoan(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        var role = userDetails.getAuthorities()
-                .stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("UNKNOWN");
+        var role = CommonUtils.getRole(userDetails);
+        if (!role.equals("LIBRARIAN")) return "redirect:/web/invalid";
 
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Borrow/Return History");
-
-        if (role.equals("LIBRARIAN")) {
-            model.addAttribute("pageLabel", PAGE_LABEL);
-            model.addAttribute("contentFragment", "fragments/pages/librarian/borrow_return_history");
-            model.addAttribute("cssFiles", List.of("/css/librarian/borrow.return.history.css"));
-            model.addAttribute("jsFiles", List.of("/js/librarian/borrow.return.history.js"));
-        } else {
-            model.addAttribute("contentFragment", "fragments/error/unauthorized");
-            model.addAttribute("status", "403");
-            model.addAttribute("error", "Authority Not Verified");
-            model.addAttribute("message", "Something went wrong with your account");
-        }
+        model.addAttribute("pageLabel", "Admin");
+        model.addAttribute("contentTitle", "User Borrow/Return History");
+        model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
+        model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
+        model.addAttribute("jsFiles", List.of("/js/generic/borrow.return.history.js"));
 
         return "template";
     }

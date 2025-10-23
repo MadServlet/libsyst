@@ -4,10 +4,13 @@ import com.proj.itstaym.controller.api.records.BookRecord;
 import com.proj.itstaym.controller.api.records.LoanRecord;
 import com.proj.itstaym.controller.api.records.UserRecord;
 import com.proj.itstaym.manager.api.LendingManager;
+import com.proj.itstaym.model.Loan;
 import com.proj.itstaym.service.api.LendingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +24,31 @@ public class LendingServiceImpl implements LendingService {
 
     @Override
     public Page<LoanRecord> findAll(Pageable page) {
+        Pageable sortedPage = PageRequest.of(
+                page.getPageNumber(),
+                page.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "loanDate")
+        );
+        return resultToPageRecord(lendingManager.findAll(page));
+    }
 
-        var result = lendingManager.findAll(page);
+    @Override
+    public List<LoanRecord> findAll() {
+        return resultToListRecord(lendingManager.findAll(Sort.by(Sort.Direction.DESC, "loanDate")));
+    }
 
-        return result.map(loan -> new LoanRecord(
+    @Override
+    public Page<LoanRecord> findByEmailPaged(String email, Pageable page) {
+        return resultToPageRecord(lendingManager.findByEmailPaged(email, page));
+    }
+
+    @Override
+    public List<LoanRecord> findByEmail(String email) {
+        return resultToListRecord(lendingManager.findByEmail(email));
+    }
+
+    private Page<LoanRecord> resultToPageRecord(Page<Loan> record) {
+        return record.map(loan -> new LoanRecord(
                 loan.getId(),
                 new UserRecord(
                         loan.getUser().getId(),
@@ -48,11 +72,8 @@ public class LendingServiceImpl implements LendingService {
         ));
     }
 
-    @Override
-    public List<LoanRecord> findAll() {
-        var result = lendingManager.findAll();
-
-        return result.stream()
+    private List<LoanRecord> resultToListRecord(List<Loan> record) {
+        return record.stream()
                 .map(loan -> new LoanRecord(
                         loan.getId(),
                         new UserRecord(
@@ -77,5 +98,6 @@ public class LendingServiceImpl implements LendingService {
                 ))
                 .collect(Collectors.toList());
     }
+
 
 }

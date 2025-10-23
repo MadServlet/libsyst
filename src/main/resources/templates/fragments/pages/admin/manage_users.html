@@ -1,11 +1,10 @@
 <div class="users-container">
-    <!-- Search Bar -->
+
     <div class="search-container">
         <i class="fas fa-search"></i>
         <input type="text" id="searchUsers" placeholder="Search users...">
     </div>
 
-    <!-- Students Table -->
     <div class="table-section">
         <h2 data-user-type="student"><i class="fas fa-user-graduate"></i> Students</h2>
         <table id="studentsTable" class="users-table">
@@ -17,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr data-user-id="456"> <!-- Add data-user-id here -->
+            <tr data-user-id="456">
                 <td>Maria Santos</td>
                 <td>maria.santos@paterostechnologicalcollege.edu.ph</td>
                 <td class="action-buttons">
@@ -27,11 +26,9 @@
             </tr>
             </tbody>
         </table>
-        <!-- Add this pagination container -->
         <div id="students-pagination-container" class="pagination-container"></div>
     </div>
 
-    <!-- Teachers Table -->
     <div class="table-section">
         <h2 data-user-type="teacher"><i class="fas fa-chalkboard-teacher"></i> Teachers</h2>
         <table id="teachersTable" class="users-table">
@@ -43,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr data-user-id="456"> <!-- Add data-user-id here -->
+            <tr data-user-id="456">
                 <td>Maria Santos</td>
                 <td>maria.santos@paterostechnologicalcollege.edu.ph</td>
                 <td class="action-buttons">
@@ -53,11 +50,9 @@
             </tr>
             </tbody>
         </table>
-        <!-- Add this pagination container -->
         <div id="teachers-pagination-container" class="pagination-container"></div>
     </div>
 
-    <!-- Modal HTML structure -->
     <div id="custom-modal" class="modal-container hidden">
         <div class="modal-content">
             <div class="modal-header">
@@ -91,5 +86,4 @@
             </div>
         </div>
     </div>
-
 </div>

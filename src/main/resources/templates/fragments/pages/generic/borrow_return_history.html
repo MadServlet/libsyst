@@ -1,0 +1,42 @@
+<th:block>
+    <h2 style="text-align:center; margin-top:20px;" th:text="${contentTitle}">${contentTitle}</h2>
+
+    <!-- Month and Year Display -->
+    <div id="monthYearDisplay" style="text-align:center; font-size:1.2em; font-weight:bold; margin-bottom:10px;"></div>
+
+    <!-- Report Generation Buttons -->
+    <div class="report-buttons"
+         th:if="${user_role != 'STUDENT' and user_role != 'TEACHER'}"
+         style="text-align:center; margin:20px;">
+        <button onclick="generateExcel()">Generate Excel Report</button>
+        <button onclick="generatePDF()">Generate PDF Report</button>
+    </div>
+
+    <div id="userType" th:attr="data-role=${user_role}"></div>
+
+    <!-- History Table -->
+    <div class="history-table-container">
+        <!-- Month and Year Display above each table -->
+        <div class="table-month-year" style="text-align:center; font-size:1.1em; font-weight:bold; margin-bottom:5px;"
+             id="tableMonthYear"></div>
+        <table class="history-table" id="historyTable">
+            <thead>
+            <tr>
+                <th th:if="${user_role != 'STUDENT' and user_role != 'TEACHER'}">User Name</th>
+                <th th:if="${user_role != 'STUDENT' and user_role != 'TEACHER'}">Email</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Borrowed Date</th>
+                <th>Returned Date</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="paginationControls">
+            <button id="prevPage">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Next</button>
+        </div>
+    </div>
+</th:block>

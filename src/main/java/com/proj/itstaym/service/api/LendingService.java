@@ -13,6 +13,8 @@ public interface LendingService {
     // read
     Page<LoanRecord> findAll(Pageable page);
     List<LoanRecord> findAll();
+    Page<LoanRecord> findByEmailPaged(String email, Pageable page);
+    List<LoanRecord> findByEmail(String email);
     // update
 
     // delete
