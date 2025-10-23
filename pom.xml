@@ -121,6 +121,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Mail Sending SDK-->
+		<dependency>
+			<groupId>com.mailersend</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>1.4.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
