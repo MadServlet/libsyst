@@ -1,4 +1,4 @@
-package com.proj.itstaym.controller.web;
+package com.proj.itstaym.controller.web.users;
 
 import com.proj.itstaym.utils.CommonUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,7 +45,6 @@ public class WebUserCtrl {
         model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
         model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
         model.addAttribute("jsFiles", List.of("/js/generic/borrow.return.history.js"));
-
 
         return "template";
     }

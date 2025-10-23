@@ -1,4 +1,4 @@
-package com.proj.itstaym.controller.web;
+package com.proj.itstaym.controller.web.users;
 
 import com.proj.itstaym.utils.CommonUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -89,7 +89,7 @@ public class WebLibrarianCtrl {
 
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Borrow/Return History");
-        model.addAttribute("pageLabel", "Admin");
+        model.addAttribute("pageLabel", PAGE_LABEL);
         model.addAttribute("contentTitle", "User Borrow/Return History");
         model.addAttribute("contentFragment", "fragments/pages/generic/borrow_return_history");
         model.addAttribute("cssFiles", List.of("/css/generic/borrow.return.history.css"));
