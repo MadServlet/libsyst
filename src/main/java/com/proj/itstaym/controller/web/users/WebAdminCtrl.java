@@ -1,23 +1,18 @@
 package com.proj.itstaym.controller.web.users;
 
 import com.proj.itstaym.utils.CommonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.thymeleaf.TemplateEngine;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/web/admin")
 public class WebAdminCtrl {
-
-    @Autowired
-    private TemplateEngine templateEngine;
 
     @GetMapping("/dashboard")
     public String showDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
