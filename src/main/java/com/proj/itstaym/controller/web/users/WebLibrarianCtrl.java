@@ -25,7 +25,7 @@ public class WebLibrarianCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Library Management System - Dashboard");
         model.addAttribute("pageLabel", PAGE_LABEL);
-        model.addAttribute("contentFragment", "fragments/dashboards/librarian");
+        model.addAttribute("contentFragment", "fragments/pages/librarian/librarian_dashboard");
         model.addAttribute("cssFiles", List.of("/css/librarian/dashboard.css"));
         model.addAttribute("jsFiles", List.of("/js/librarian/dashboard.js"));
 

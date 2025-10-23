@@ -23,7 +23,7 @@ public class WebAdminCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Admin - Create User Account");
         model.addAttribute("pageLabel", "Admin");
-        model.addAttribute("contentFragment", "fragments/dashboards/admin");
+        model.addAttribute("contentFragment", "fragments/pages/admin/admin_dashboard");
         model.addAttribute("cssFiles", List.of("/css/admin/user.creation.css"));
         model.addAttribute("jsFiles", List.of("/js/admin/user.creation.js"));
 

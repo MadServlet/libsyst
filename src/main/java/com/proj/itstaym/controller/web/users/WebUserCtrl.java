@@ -25,7 +25,7 @@ public class WebUserCtrl {
         model.addAttribute("user_role", role);
         model.addAttribute("pageTitle", "Library Management System - Dashboard");
         model.addAttribute("pageLabel", PAGE_LABEL);
-        model.addAttribute("contentFragment", "fragments/dashboards/user");
+        model.addAttribute("contentFragment", "fragments/pages/user/user_dashboard");
         model.addAttribute("cssFiles", List.of("/css/user/dashboard.css"));
         model.addAttribute("jsFiles", List.of("/js/user/dashboard.js"));
 
