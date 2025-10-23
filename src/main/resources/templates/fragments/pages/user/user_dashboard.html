@@ -12,12 +12,13 @@
                 <!-- More notifications can be added here -->
             </ul>
         </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search by Title, Author, Publisher" onkeyup="searchBooks()">
-            <i class="fas fa-search search-icon"></i>
-        </div>
+
         <div class="book-list">
             <h2>Available Books</h2>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by Title, Author, Publisher">
+                <i class="fas fa-search search-icon"></i>
+            </div>
             <table id="booksTable">
                 <thead>
                 <tr>
@@ -55,9 +56,13 @@
                     <td>Not Available</td>
                     <td><button class="borrow-btn">Borrow</button></td>
                 </tr>
-
                 </tbody>
             </table>
+            <div id="paginationControls">
+                <button id="prevPage">Previous</button>
+                <span id="pageInfo"></span>
+                <button id="nextPage">Next</button>
+            </div>
         </div>
     </div>
 </div>
