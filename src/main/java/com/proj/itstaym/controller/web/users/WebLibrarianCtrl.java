@@ -93,7 +93,7 @@ public class WebLibrarianCtrl {
         model.addAttribute("contentTitle", "User Borrow/Return History");
         model.addAttribute("contentFragment", "fragments/pages/generic/generic_borrow_return_history");
         model.addAttribute("cssFiles", List.of("/css/generic/generic.borrow.return.history.css"));
-        model.addAttribute("jsFiles", List.of("/js/generic/generic.borrow.return.history.js"));
+        model.addAttribute("jsFiles", List.of("/js/generic/generic.borrow.return.history.js", "/js/html5-qrcode.min.js"));
 
         return "template";
     }

@@ -24,7 +24,6 @@ public class WebAdminCtrl {
         model.addAttribute("pageTitle", "Admin - Create User Account");
         model.addAttribute("pageLabel", "Admin");
         model.addAttribute("contentFragment", "fragments/pages/admin/admin_dashboard");
-        model.addAttribute("cssFiles", List.of("/css/admin/admin.user.creation.css"));
         model.addAttribute("jsFiles", List.of("/js/admin/admin.user.creation.js"));
 
 
@@ -41,7 +40,6 @@ public class WebAdminCtrl {
         model.addAttribute("pageTitle", "Admin - User Management");
         model.addAttribute("pageLabel", "Admin");
         model.addAttribute("contentFragment", "fragments/pages/admin/admin_manage_users");
-        model.addAttribute("cssFiles", List.of("/css/admin/admin.manage.users.css"));
         model.addAttribute("jsFiles", List.of("/js/admin/admin.manage.users.js"));
 
         return "template";

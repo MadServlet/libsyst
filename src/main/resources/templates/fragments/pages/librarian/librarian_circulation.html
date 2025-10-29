@@ -2,13 +2,21 @@
 
     <div class="section">
         <h2>Borrow Book</h2>
-        <form onsubmit="return issueBook(event);">
-            <button type="button" id="scanIssueMemberBtn" onclick="openQrScanner('issueMember')">Scan Member QR</button>
-            <input type="hidden" id="issueMember" required>
-            <button type="button" id="scanIssueBookBtn" onclick="openQrScanner('issueBookTitle')">Scan Book QR</button>
-            <input type="hidden" id="issueBookTitle" required>
-            <p>Borrow Date</p>
-            <input type="date" id="issueDate" placeholder="Issue Date" required>
+        <form>
+            <div class="form-group">
+                <label for="requestSelect">Select Approved Request:</label>
+                <select id="requestSelect" required>
+                    <option value="">Select a request...</option>
+                    <!-- Will be populated dynamically -->
+                </select>
+            </div>
+            <button type="button" id="borrow_btn" data-source="borrow">
+                Scan Book Barcode, QR, NFC
+            </button>
+            <div id="scanStatus" class="scan-status"></div>
+            <div id="scanTimestamp" class="scan-timestamp"></div>
+            <input type="text" id="issueBookTitle">
+            <input type="text" id="borrowDateTime">
             <p>Due Date</p>
             <input type="date" id="dueDate" placeholder="Due Date" required>
             <button type="submit">Borrow</button>
@@ -18,19 +26,21 @@
 
     <div class="section">
         <h2>Return Book</h2>
-        <form onsubmit="return returnBook(event);">
-            <button type="button" id="scanReturnMemberBtn" onclick="openQrScanner('returnMember')">Scan Member QR</button>
-            <input type="hidden" id="returnMember" required>
-            <button type="button" id="scanReturnBookBtn" onclick="openQrScanner('returnBookTitle')">Scan Book QR</button>
-            <input type="hidden" id="returnBookTitle" required>
-            <p>Return Date</p>
-            <input type="date" id="returnDate" placeholder="Return Date" required>
-            <button type="submit">Return Book</button>
+        <form>
+            <button type="button" id="return_btn" data-source="return">
+                Scan Book Barcode, QR or NFC
+            </button>
+            <div id="returnScanStatus" class="scan-status"></div>
+            <div id="returnScanTimestamp" class="scan-timestamp"></div>
+            <input type="hidden" id="returnBookTitle">
+            <input type="hidden" id="returnDateTime">
+            <button type="submit">Return</button>
         </form>
     </div>
 
     <div id="qrScannerModal" style="display: none;">
         <div id="reader" style="width: 300px; height: 300px; margin: auto;"></div>
-        <button onclick="closeQrScanner()">Close</button>
+        <input type="text" id="scanned_id">
+        <button id="closeScannerModal">Cancel</button>
     </div>
 </div>

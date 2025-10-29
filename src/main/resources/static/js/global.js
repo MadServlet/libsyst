@@ -1,3 +1,11 @@
-setInterval(() => {
-    document.getElementById('currentTime').innerHTML = new Date().toLocaleString();
-}, 1000);
+$(document).ready(function() {
+    var path = window.location.pathname;
+
+    $('.nav-link').each(function() {
+        if ($(this).attr('href') === path) {
+            $(this).addClass('active');
+        } else {
+            $(this).removeClass('active');
+        }
+    });
+});

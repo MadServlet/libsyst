@@ -1,64 +1,191 @@
 <div th:fragment="dashboard">
 
-<div class="container">
-    <h2>Dashboard</h2>
-    <div class="dashboard-flex">
-        <div class="statistics">
-            <div class="stat-card">
-                <h3>Total Books</h3>
-                <p id="bookCount">-</p>
-            </div>
-            <div class="stat-card">
-                <h3>Issued Books</h3>
-                <p id="issuedCount">-</p>
-            </div>
-            <div class="stat-card">
-                <h3>Available Books</h3>
-                <p id="availableCount">-</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Members</h3>
-                <p id="memberCount">-</p>
+    <div class="container-fluid px-6 my-6" style="padding-left: 100px; padding-right: 100px;">
+
+        <div class="row mb-3 justify-content-center my-4">
+            <div class="col-12 center">
+                <h2 class="text-center">Dashboard</h2>
             </div>
         </div>
-        <!-- Book Request Box Section -->
-        <div class="book-request-box">
-            <h3><i class="fas fa-bell"></i> Book Requests</h3>
-            <ul id="requestNotifications">
-                <!-- Show up to 3 requests -->
-                <li>
-                    <div>
-                        <strong>Juan Dela Cruz</strong> requested <b>"Noli Me Tangere"</b>
+
+        <div class="row">
+            <!-- Stats section -->
+            <div class="col-md-7">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="border rounded shadow p-3 text-center w-100 h-100">
+                            <h3>Total Books</h3>
+                            <p>200</p>
+                        </div>
                     </div>
-                    <textarea placeholder="Add a note..." class="note-input"></textarea>
-                    <div class="notif-actions">
-                        <button class="accept-btn">Accept</button>
-                        <button class="decline-btn">Decline</button>
+                    <div class="col-md-4">
+                        <div class="border rounded shadow p-3 text-center w-100 h-100">
+                            <h3>Borrowed Books</h3>
+                            <p>75</p>
+                        </div>
                     </div>
-                </li>
-                <li>
-                    <div>
-                        <strong>Maria Clara</strong> requested <b>"El Filibusterismo"</b>
+                    <div class="col-md-4">
+                        <div class="border rounded shadow p-3 text-center w-100 h-100">
+                            <h3>Available Books</h3>
+                            <p>125</p>
+                        </div>
                     </div>
-                    <textarea placeholder="Add a note..." class="note-input"></textarea>
-                    <div class="notif-actions">
-                        <button class="accept-btn">Accept</button>
-                        <button class="decline-btn">Decline</button>
+                    <div class="col-md-12">
+                        <div class="border rounded shadow p-3 text-center w-100 h-100">
+                            <h3>Total Users</h3>
+                            <p>100</p>
+                        </div>
                     </div>
-                </li>
-                <li>
-                    <div>
-                        <strong>Andres Bonifacio</strong> requested <b>"Florante at Laura"</b>
+                </div>
+            </div>
+
+            <!-- Book Requests section -->
+            <div class="col-md-5">
+                <div class="card h-200 shadow p-4">
+                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                        <i class="fas fa-bell me-2"></i>
+                        <h5 class="mb-0">Book Requests</h5>
                     </div>
-                    <textarea placeholder="Add a note..." class="note-input"></textarea>
-                    <div class="notif-actions">
-                        <button class="accept-btn">Accept</button>
-                        <button class="decline-btn">Decline</button>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                            <table class="table table-hover mb-0 align-middle text-center">
+                                <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="requestNotifications">
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Juan Dela Cruz</td>
+                                    <td><b>Noli Me Tangere</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Maria Clara</td>
+                                    <td><b>El Filibusterismo</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-10-29</td>
+                                    <td>Andres Bonifacio</td>
+                                    <td><b>Florante at Laura</b></td>
+                                    <td><button class="btn btn-sm btn-primary">View</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
+
+            <!-- Book Request Modal -->
+            <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="requestModalLabel">Book Request Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                            <p><strong>Name:</strong> <span id="modalName"></span></p>
+                            <p><strong>Title:</strong> <span id="modalTitle"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success">Approve</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
-</div>
 
 </div>

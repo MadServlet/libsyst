@@ -1,18 +1,30 @@
 <th:block th:fragment="header" xmlns:th="http://www.w3.org/1999/html">
-<header>
-    <div class="title-logo">
-        <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo" class="logo">
-        <h1 th:text="${pageLabel}"></h1>
-    </div>
 
-    <th:block th:replace="~{fragments/navigation :: navigation}"></th:block>
+<header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2 px-3">
+    <div class="container-fluid">
+        <!-- Logo and Title -->
+        <div class="d-flex align-items-center">
+            <img th:src="@{/img/logo-ptc.png}" alt="PTC Logo"
+                 width="70" height="70" class="me-3">
+            <h1 class="h4 mb-0 fw-bold text-white" th:text="${pageLabel}"></h1>
+        </div>
 
-    <div>
-        <form th:action="@{/web/logout}" method="post">
-            <button id="logoutBtn" type="submit">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <th:block th:replace="~{fragments/navigation :: navigation}"></th:block>
+            </ul>
+        </div>
+
+        <div class="d-flex">
+            <a href="/web/logout" class="btn btn-outline-light">
                 <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </form>
+            </a>
+        </div>
     </div>
 </header>
 </th:block>
